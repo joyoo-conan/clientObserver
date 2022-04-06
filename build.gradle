@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.6'
+	id 'org.springframework.boot' version '2.5.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
@@ -7,6 +7,11 @@ plugins {
 group = 'com.codepulse'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
+def versions = [
+        AkkaVersion: "2.6.16",
+		ScalaBinary:"2.13"
+]
 
 configurations {
 	compileOnly {
@@ -25,6 +30,22 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//Akka ActorSystem
+	implementation platform("com.typesafe.akka:akka-bom_${versions.ScalaBinary}:2.6.16")
+	implementation platform("com.typesafe.akka:akka-bom_${versions.ScalaBinary}:2.6.16")
+	implementation "com.typesafe.akka:akka-actor-typed_${versions.ScalaBinary}"
+	implementation "com.typesafe.akka:akka-cluster-sharding-typed_${versions.ScalaBinary}"
+	implementation "com.typesafe.akka:akka-serialization-jackson_${versions.ScalaBinary}"
+
+	//Akka Persistence(Event Sourcing)
+	implementation platform("com.typesafe.akka:akka-bom_${versions.ScalaBinary}:2.6.16")
+	implementation "com.typesafe.akka:akka-actor-typed_${versions.ScalaBinary}"
+	implementation "com.typesafe.akka:akka-cluster-sharding-typed_${versions.ScalaBinary}"
+	implementation "com.typesafe.akka:akka-serialization-jackson_${versions.ScalaBinary}"
+
+	//ETC
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' // log4j
 }
 
 tasks.named('test') {
